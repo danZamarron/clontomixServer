@@ -1,9 +1,13 @@
-const express = require('express');
-const router  = express.Router();
+const { Router } = require('express');
+const router  = new Router();
+
+const {catchErrors} = require("../middlewares/index")
+const 
+{
+  getIndexAPI
+} = require("../controllers/index")
 
 /* GET home page */
-router.get('/', (req, res, next) => {
-  res.render('index');
-});
+router.get('/', catchErrors(getIndexAPI));
 
 module.exports = router;
