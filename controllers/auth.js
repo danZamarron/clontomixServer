@@ -80,7 +80,7 @@ exports.postSignUp = async (req, res, next) =>
     const existingUser = await User.findOne({ email })
   
     if (existingUser) {
-        res.status(401).json({ message: "Error, intenta de nuevo." })
+        res.status(401).json({ message: "Mmm, algo tiene ese email." })
         return
     }
   

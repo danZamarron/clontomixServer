@@ -18,8 +18,8 @@ const noticiaSchema = new Schema(
     },    
     tipoNoticia: {
         type: String,
-        enum: ["Editiorial", "Rumor", "Review", "Admin"],
-        default: "Editiorial"
+        enum: ["Editorial", "Rumor", "Review", "Admin"],
+        default: "Editorial"
     },
     idUser:
     {

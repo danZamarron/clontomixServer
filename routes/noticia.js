@@ -6,6 +6,7 @@ const
 {
     getAllNoticias,
     getAllNoticiasByUser,
+    getAllNoticiasByPage,
     getAllNoticiasNotApproved,
     postCreateNoticia,
     putUpdateNoticia,
@@ -15,6 +16,7 @@ const
 
 router.get('/', catchErrors(getAllNoticias));
 router.get('/user', catchErrors(getAllNoticiasByUser));
+router.get('/pagination', catchErrors(getAllNoticiasByPage));
 router.post('/', catchErrors(postCreateNoticia));
 router.put('/:noticiaId', catchErrors(putUpdateNoticia));
 router.delete('/:noticiaId', catchErrors(deleteDeleteNoticia));
