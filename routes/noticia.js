@@ -6,9 +6,11 @@ const
 {
     getAllNoticias,
     getAllNoticiasByUser,
+    getAllNoticiasByUserParam,
     getAllNoticiasByPage,
     getAllNoticiasNotApproved,
     postCreateNoticia,
+    getOneNoticia,
     putUpdateNoticia,
     deleteDeleteNoticia,
     putNoticiaApproved
@@ -16,10 +18,12 @@ const
 
 router.get('/', catchErrors(getAllNoticias));
 router.get('/user', catchErrors(getAllNoticiasByUser));
+router.get('/user/:userId', catchErrors(getAllNoticiasByUserParam));
 router.get('/pagination', catchErrors(getAllNoticiasByPage));
 router.post('/', catchErrors(postCreateNoticia));
-router.put('/:noticiaId', catchErrors(putUpdateNoticia));
-router.delete('/:noticiaId', catchErrors(deleteDeleteNoticia));
+router.get('/edit/:noticiaId', catchErrors(getOneNoticia));
+router.put('/edit/:noticiaId', catchErrors(putUpdateNoticia));
+router.delete('/delete/:noticiaId', catchErrors(deleteDeleteNoticia));
 
 router.get('/notApproved', catchErrors(getAllNoticiasNotApproved));
 router.put('/approved/:noticiaId', catchErrors(putNoticiaApproved));

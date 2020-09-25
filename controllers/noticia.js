@@ -26,9 +26,6 @@ exports.getAllNoticiasByPage = async (req, res, next) =>
         page: parseInt(req.query.page, 10) || 0,
         limit: parseInt(req.query.limit, 10) || 10
     }
-    console.log(`Page: ${pageOptions.page}`)
-    console.log(`Limit: ${pageOptions.limit}`)
-
 
     const noticias = await Noticia.find({
         $and: [ 
@@ -56,6 +53,13 @@ exports.getAllNoticiasByUser = async (req, res, next) =>
     
     const noticiasByUser = await Noticia.find({ idUser: req.user.id });
     return res.status(200).json({noticiasByUser})
+}
+
+exports.getAllNoticiasByUserParam = async (req, res, next) =>
+{    
+    const { userId } = req.params
+    const noticiasByUser = await Noticia.find({ idUser: userId });
+    return res.status(200).json(noticiasByUser)
 }
 
 exports.getAllNoticiasNotApproved = async (req, res, next) =>
@@ -108,11 +112,16 @@ exports.postCreateNoticia = async (req, res, next) =>
     res.status(201).json({ nuevaNoticia })
 }
 
+exports.getOneNoticia = async (req, res, next) => {    
+    const { noticiaId } = req.params
+    const noticia = await Noticia.findById(noticiaId);
+    res.status(200).json(noticia)
+}
+
 exports.putUpdateNoticia = async (req, res, next) =>
 {
     const { titulo, contenido, fechaParaPublicacion, tipoNoticia } = req.body
     const { noticiaId } = req.params
-    
     //#region  Validar 2 Campos
 
     if(!req.user)
@@ -143,11 +152,13 @@ exports.putUpdateNoticia = async (req, res, next) =>
 
     //#endregion
 
+    
+
     const noticiaAct = await Noticia.findByIdAndUpdate(noticiaId,
         {
         titulo,
         contenido,
-        fechaParaPublicacion,
+        fechaParaPublicacion: fechaParaPublicacion || Date.now(),
         tipoNoticia
         },
         {
