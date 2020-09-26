@@ -114,7 +114,15 @@ exports.postCreateNoticia = async (req, res, next) =>
 
 exports.getOneNoticia = async (req, res, next) => {    
     const { noticiaId } = req.params
-    const noticia = await Noticia.findById(noticiaId);
+    const noticia = await Noticia.findById(noticiaId)
+    .populate("idUser")
+    .populate({
+        path: "idComentarios",
+        populate: {
+          path: "idUser",
+          model: "User"
+        }
+      })
     res.status(200).json(noticia)
 }
 

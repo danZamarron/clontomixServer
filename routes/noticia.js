@@ -21,7 +21,7 @@ router.get('/user', catchErrors(getAllNoticiasByUser));
 router.get('/user/:userId', catchErrors(getAllNoticiasByUserParam));
 router.get('/pagination', catchErrors(getAllNoticiasByPage));
 router.post('/', catchErrors(postCreateNoticia));
-router.get('/edit/:noticiaId', catchErrors(getOneNoticia));
+router.get('/detail/:noticiaId', catchErrors(getOneNoticia));
 router.put('/edit/:noticiaId', catchErrors(putUpdateNoticia));
 router.delete('/delete/:noticiaId', catchErrors(deleteDeleteNoticia));
 
