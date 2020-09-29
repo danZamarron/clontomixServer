@@ -45,7 +45,7 @@ app.use(
 )
 
 // Express View engine setup
-app.use(express.static(path.join(__dirname, 'public')));
+app.use(express.static(path.join(__dirname, 'public/build')));
 app.use(favicon(path.join(__dirname, 'public', 'images', 'favicon.ico')));
 
 
@@ -57,7 +57,7 @@ app.use('/api/comentario', require('./routes/comentario'));
 app.use('/api/destacado', require('./routes/destacado'));
 
 app.get("/*", (req, res) => {
-  res.sendFile(path.join(__dirname, "public/build", "index.html"))
+  res.sendFile(path.join(__dirname+'/public/build/index.html'));
 })
 
 module.exports = app;
