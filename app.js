@@ -54,6 +54,10 @@ app.use('/auth', require('./routes/auth'));
 app.use('/api', require('./routes/index'));
 app.use('/api/noticia', require('./routes/noticia'));
 app.use('/api/comentario', require('./routes/comentario'));
+app.use('/api/destacado', require('./routes/destacado'));
 
+app.get("/*", (req, res) => {
+  res.sendFile(path.join(__dirname, "public/build", "index.html"))
+})
 
 module.exports = app;

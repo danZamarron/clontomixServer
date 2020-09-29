@@ -41,7 +41,18 @@ const noticiaSchema = new Schema(
         type: Schema.Types.ObjectId,
         ref: "Comentario"
       }
-    ]    
+    ],
+    tipoPresentacion: {
+        type: String,
+        enum: ["Imagen", "Video"],
+        default: "Imagen"
+    },
+    ytLink: {
+        type: String
+    },
+    imgArray: [{
+        type: String
+    }]
   },
   {
     timestamps: true

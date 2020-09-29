@@ -13,7 +13,8 @@ const
     getOneNoticia,
     putUpdateNoticia,
     deleteDeleteNoticia,
-    putNoticiaApproved
+    putNoticiaApproved,
+    getNoticiasDestacadas
 } = require("../controllers/noticia")
 
 router.get('/', catchErrors(getAllNoticias));
@@ -28,4 +29,5 @@ router.delete('/delete/:noticiaId', catchErrors(deleteDeleteNoticia));
 router.get('/notApproved', catchErrors(getAllNoticiasNotApproved));
 router.put('/approved/:noticiaId', catchErrors(putNoticiaApproved));
 
+router.get("/noticiasDestacadas", catchErrors(getNoticiasDestacadas))
 module.exports = router;

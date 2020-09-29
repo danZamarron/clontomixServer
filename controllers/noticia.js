@@ -1,6 +1,7 @@
 const User = require('../models/User');
 const Noticia = require('../models/Noticia');
 const Comentario = require('../models/Comentario');
+const Destacado = require('../models/Destacado');
 
 const moment = require('moment')
 
@@ -71,7 +72,7 @@ exports.getAllNoticiasNotApproved = async (req, res, next) =>
 
 exports.postCreateNoticia = async (req, res, next) =>
 {
-    const { titulo, contenido, fechaParaPublicacion, tipoNoticia } = req.body
+    const { titulo, contenido, fechaParaPublicacion, tipoNoticia, tipoPresentacion, ytLink, imgArray } = req.body
 
     //#region  Validar 2 Campos
 
@@ -108,7 +109,10 @@ exports.postCreateNoticia = async (req, res, next) =>
         contenido,
         fechaParaPublicacion,
         tipoNoticia,
-        idUser: req.user.id
+        idUser: req.user.id,
+        tipoPresentacion, 
+        ytLink, 
+        imgArray
     })
     res.status(201).json({ nuevaNoticia })
 }
@@ -198,4 +202,24 @@ exports.putNoticiaApproved = async (req, res, next) => {
         }
     )
     res.status(201).json({ noticiaAct })
+}
+
+exports.getNoticiasDestacadas = async (req, res ,next) => 
+{
+
+    let noticias = await Noticia
+    .aggregate([
+        { "$match": { "noticiaAprobada": true } },
+        {
+        "$lookup": {
+            "from": "destacados",
+            "localField": "_id",
+            "foreignField": "idNoticia",
+            "as": "esDestacado"
+            }
+        }
+        ])
+    .sort({fechaParaPublicacion: "desc"})
+    
+    res.status(200).json(noticias)
 }
