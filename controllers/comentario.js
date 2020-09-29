@@ -3,7 +3,7 @@ const Noticia = require('../models/Noticia');
 const Comentario = require('../models/Comentario');
 
 exports.getAllComentariosByUser = async (req, res, next) => {
-    const comentariosPorUser = await Comentario.find({idUser : req.user.id})
+    const comentariosPorUser = await Comentario.find({idUser : req.user.id}).populate("idNoticia")
     return res.status(200).json({comentariosPorUser})
 }
 

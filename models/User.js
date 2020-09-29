@@ -16,19 +16,25 @@ const userSchema = new Schema(
       trim: true
     },
     password: {
-      type: String,
-      required: [true, 'Password es un campo requerido.'],
+      type: String
     },
     profilePicture:{
       type: String,
+      default: "https://gsimg.asiayo.com/ay-image-upload/1498635269366_default-avatar.png"
     },
-    
+    facebook:{
+      type: String,
+    },
+    twitter:{
+      type: String,
+    },    
     roleType: {
         type: String,
         enum: ["User", "Editor", "Admin"],
         default: "User"
     },
-    googleID: String
+    googleID: String,
+    acercaDe: String,
   },
   {
     timestamps: true

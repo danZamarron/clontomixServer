@@ -36,39 +36,39 @@ passport.use(
 
 //#region Google
 
-// const googleConfig = {
-//     clientID: process.env.GOOGLE_ID,
-//     clientSecret: process.env.GOOGLE_SECRET,
-//     callbackURL: process.env.GOOGLE_CALLBACK_URL,
-//     profileFields: ["id", "email", "link", "name", "photos"]
-//   }
+const googleConfig = {
+    clientID: process.env.GOOGLE_ID,
+    clientSecret: process.env.GOOGLE_SECRET,
+    callbackURL: process.env.GOOGLE_CALLBACKURL,
+    profileFields: ["id", "email", "link", "name", "photos"]
+  }
 
-// passport.use(
-//     new GoogleStrategy(googleConfig,
-//       async (accessToken, refreshToken, profile, done) => {
+passport.use(
+    new GoogleStrategy(googleConfig,
+      async (accessToken, refreshToken, profile, done) => {
   
-//         const user = await User.findOne({ googleID: profile.id })
+        const user = await User.findOne({ googleID: profile.id })
         
-//         const checkEmail = await User.findOne({email: profile.emails[0].value})
+        const checkEmail = await User.findOne({email: profile.emails[0].value})
   
-//         if (!user && checkEmail) 
-//           return done(null, false, { message: "Este email ya esta asociado"})
+        if (!user && checkEmail) 
+          return done(null, false, { message: "Este email ya esta asociado"})
   
-//         if (!user) {
-//           const user = await User.create({
-//             username: profile.displayName,
-//             email: profile.emails[0].value,
-//             googleID: profile.id,
-//             profilePicture: profile.photos[0].value
-//           })
-//           done(null, user)
-//         }
-//         done(null, user)
-//       }
-//     )
-//   )  
-  
-  //#endregion
+        if (!user) {
+          const user = await User.create({
+            username: profile.displayName,
+            email: profile.emails[0].value,
+            googleID: profile.id,
+            profilePicture: profile.photos[0].value
+          })
+          done(null, user)
+        }
+        done(null, user)
+      }
+    )
+  )
+
+//#endregion
   
 //#region Serializer y Deserializer
 

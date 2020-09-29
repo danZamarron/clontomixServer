@@ -36,6 +36,7 @@ exports.getAllNoticiasByPage = async (req, res, next) =>
             } 
         ]        
       })
+      .populate("idUser")
       .skip(pageOptions.page * pageOptions.limit)
       .limit(pageOptions.limit)
       .sort({ fechaParaPublicacion : "desc"});

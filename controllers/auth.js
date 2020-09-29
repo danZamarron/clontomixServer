@@ -109,10 +109,78 @@ exports.getCurrentUser = (req,res,next) => {
     res.status(200).json({ user: req.user })
 }
 
-exports.getGoogleLogin = (req, res, next) => {
+exports.getGoogleLogin = passport.authenticate("google", { scope: ["profile", "email"] })
+
+exports.getGoogleCallback = (req, res, next) => {
+
+    passport.authenticate("google", { scope: ["email"] }, (err, user, info) => {
+      if (err) return res.status(500).json({ err, info })
+      if (!user) return res.status(401).json({ err, info })
+  
+      req.login(user, error => {
+        if (error) return res.status(401).json({ error })
+        return res.redirect(process.env.CORS_URL)
+      })
+    })(req, res, next)
+}
+
+exports.getProfileData = async (req, res, next) => {
     next();
 }
 
-exports.getGoogleCallback = (req, res, next) => {
-    next();
+exports.postUpdateProfileData = async (req, res, next) => {
+    
+
+    const { facebook, twitter, acercaDe } = req.body
+
+    //#region  Validar 1 Campos
+
+    if(!req.user)
+    {
+        res.status(401).json({ message: "no estas logeado" })
+        return
+    }
+
+    //#endregion
+
+    const updatedProfile = await User.findByIdAndUpdate(req.user.id,{
+        facebook,
+        twitter,
+        acercaDe
+    },
+    {
+        new:true
+    })
+
+    res.status(201).json({ updatedProfile })
+
+
+
+}
+
+exports.postUpdateProfileAvatar = async (req, res, next) => {
+
+
+    const { profilePicture } = req.body
+
+    console.log(req.body)
+
+    //#region  Validar 1 Campos
+
+    if(!req.user)
+    {
+        res.status(401).json({ message: "no estas logeado" })
+        return
+    }
+
+    //#endregion
+
+    const updatedAvatarProfile = await User.findByIdAndUpdate(req.user.id,{
+        profilePicture
+    },
+    {
+        new:true
+    })
+
+    res.status(201).json({ updatedAvatarProfile })
 }
