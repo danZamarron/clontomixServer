@@ -134,8 +134,10 @@ exports.getOneNoticia = async (req, res, next) => {
 
 exports.putUpdateNoticia = async (req, res, next) =>
 {
-    const { titulo, contenido, fechaParaPublicacion, tipoNoticia, tipoPresentacion, ytLink, imgArray, img } = req.body
+    const { titulo, contenido, fechaParaPublicacion, tipoNoticia, tipoPresentacion, ytLink, imgArray, borrarPhoto} = req.body
+    let { img } = req.body
     const { noticiaId } = req.params
+   
     //#region  Validar 2 Campos
 
     if(!req.user)
@@ -168,7 +170,9 @@ exports.putUpdateNoticia = async (req, res, next) =>
 
     const noticiaBefore = await Noticia.findById(noticiaId)
 
-    let newImgArray = [...noticiaBefore.imgArray, imgArray]
+    console.log(req.body)
+
+    let newImgArray = borrarPhoto ? imgArray : [...noticiaBefore.imgArray, ...imgArray]
     img = (img === "" || img === undefined || img === null) ? noticiaBefore.img : img;
     
     const noticiaAct = await Noticia.findByIdAndUpdate(noticiaId,
@@ -179,7 +183,7 @@ exports.putUpdateNoticia = async (req, res, next) =>
         tipoNoticia,
         tipoPresentacion,
         ytLink,
-        newImgArray,
+        imgArray: newImgArray,
         img
         },
         {
