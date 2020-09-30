@@ -72,7 +72,7 @@ exports.getAllNoticiasNotApproved = async (req, res, next) =>
 
 exports.postCreateNoticia = async (req, res, next) =>
 {
-    const { titulo, contenido, fechaParaPublicacion, tipoNoticia, tipoPresentacion, ytLink, imgArray } = req.body
+    const { titulo, contenido, fechaParaPublicacion, tipoNoticia, tipoPresentacion, ytLink, imgArray, img } = req.body
 
     //#region  Validar 2 Campos
 
@@ -112,7 +112,8 @@ exports.postCreateNoticia = async (req, res, next) =>
         idUser: req.user.id,
         tipoPresentacion, 
         ytLink, 
-        imgArray
+        imgArray,
+        img
     })
     res.status(201).json({ nuevaNoticia })
 }
@@ -133,7 +134,7 @@ exports.getOneNoticia = async (req, res, next) => {
 
 exports.putUpdateNoticia = async (req, res, next) =>
 {
-    const { titulo, contenido, fechaParaPublicacion, tipoNoticia } = req.body
+    const { titulo, contenido, fechaParaPublicacion, tipoNoticia, tipoPresentacion, ytLink, imgArray, img } = req.body
     const { noticiaId } = req.params
     //#region  Validar 2 Campos
 
@@ -165,14 +166,21 @@ exports.putUpdateNoticia = async (req, res, next) =>
 
     //#endregion
 
-    
+    const noticiaBefore = await Noticia.findById(noticiaId)
 
+    let newImgArray = [...noticiaBefore.imgArray, imgArray]
+    img = (img === "" || img === undefined || img === null) ? noticiaBefore.img : img;
+    
     const noticiaAct = await Noticia.findByIdAndUpdate(noticiaId,
         {
         titulo,
         contenido,
         fechaParaPublicacion: fechaParaPublicacion || Date.now(),
-        tipoNoticia
+        tipoNoticia,
+        tipoPresentacion,
+        ytLink,
+        newImgArray,
+        img
         },
         {
             new: true

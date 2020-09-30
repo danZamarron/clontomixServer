@@ -52,7 +52,11 @@ const noticiaSchema = new Schema(
     },
     imgArray: [{
         type: String
-    }]
+    }],
+    img:{
+      type: String
+    }
+
   },
   {
     timestamps: true
